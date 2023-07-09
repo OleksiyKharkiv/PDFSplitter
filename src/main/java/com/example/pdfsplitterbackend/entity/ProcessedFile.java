@@ -10,19 +10,19 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "pdffile")
+@Table(name = "processed_file")
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class PDFFile {
+public class ProcessedFile {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
-    @Column(name = "title")
-
-    private String title;
-    private int sizeKb;
-    private int numberOfPages;
-    private byte[] fileContent;
+    private int id;
+    @Column(name = "original_file_id")
+    private int originalFileId;
+    @Column(name = "processed_file_name")
+    private String processedFileName;
+    @Column(name = "processed_file_size")
+    private int processedFileSizeKb;
 }
