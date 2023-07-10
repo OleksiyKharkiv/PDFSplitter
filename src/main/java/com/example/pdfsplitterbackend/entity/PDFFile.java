@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "pdffile")
+@Table(name = "pdf_file")
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -20,9 +20,11 @@ public class PDFFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     @Column(name = "title")
-
     private String title;
+    @Column(name = "size_Kb")
     private int sizeKb;
+    @Column(name = "number_of_pages")
     private int numberOfPages;
+    @Column(name = "file_content")
     private byte[] fileContent;
 }

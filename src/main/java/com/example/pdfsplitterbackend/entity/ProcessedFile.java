@@ -25,4 +25,8 @@ public class ProcessedFile {
     private String processedFileName;
     @Column(name = "processed_file_size")
     private int processedFileSizeKb;
+    @Column(name = "number_of_pages")
+    private int numberOfPages;
+    @Column(name = "file_content")
+    private byte[] fileContent;
 }
