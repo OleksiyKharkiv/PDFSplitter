@@ -1,5 +1,7 @@
 package com.example.pdfsplitterbackend.entity;
 
+import com.example.pdfsplitterbackend.enums.RequestStatus;
+import com.example.pdfsplitterbackend.enums.SplitMode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,12 +24,12 @@ public class SplitRequest {
     private String id;
     @Column(name = "original_file_id")
     private int originalFileId;
-    @Column(name = "processed_file_name")
-    private String processedFileName;
-    @Column(name = "processed_file_size")
-    private int processedFileSizeKb;
-    @Column(name = "number_of_pages")
-    private int numberOfPages;
-    @Column(name = "file_content")
-    private byte[] fileContent;
+    @Column(name = "split_mode")
+    @Enumerated(EnumType.ORDINAL)
+    private SplitMode splitMode;
+    @Column(name = "split_value")
+    private int splitValue;
+    @Column(name = "request_status")
+    @Enumerated(EnumType.ORDINAL)
+    private RequestStatus requestStatus;
 }
