@@ -1,19 +1,12 @@
 package com.example.pdfsplitterbackend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "processed_file")
-@NoArgsConstructor
-@AllArgsConstructor
-
 public class ResultFile {
     @Id
     @Column(name = "id")

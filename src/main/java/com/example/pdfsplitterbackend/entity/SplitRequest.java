@@ -2,20 +2,13 @@ package com.example.pdfsplitterbackend.entity;
 
 import com.example.pdfsplitterbackend.enums.RequestStatus;
 import com.example.pdfsplitterbackend.enums.SplitMode;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "split_request")
-@NoArgsConstructor
-@AllArgsConstructor
-
 public class SplitRequest {
 
     @Id

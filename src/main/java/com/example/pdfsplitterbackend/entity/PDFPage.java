@@ -1,18 +1,12 @@
 package com.example.pdfsplitterbackend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "pdf_page")
-@NoArgsConstructor
-@AllArgsConstructor
 public class PDFPage {
     @Id
     @Column(name = "id")
