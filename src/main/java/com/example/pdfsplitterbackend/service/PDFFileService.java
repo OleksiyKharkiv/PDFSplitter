@@ -1,17 +1,18 @@
 package com.example.pdfsplitterbackend.service;
 
 import com.example.pdfsplitterbackend.dto.PDFFileDTO;
-import jakarta.annotation.Resource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 public interface PDFFileService {
-    String uploadPDFFile(MultipartFile file);
-    Resource downloadPDFFile(String fileId);
+    String uploadPDFFile(MultipartFile file) throws IOException;
+    Resource downloadPDFFile(String fileId) throws FileNotFoundException;
     List<PDFFileDTO> getAllPDFFiles();
-    PDFFileDTO getPDFFileById(String fileId);
+    PDFFileDTO getPDFFileById(String fileId) throws FileNotFoundException;
     void deletePDFFile(String fileId);
 
     byte[] getPDFFileContentById(String fileId) throws IOException;
