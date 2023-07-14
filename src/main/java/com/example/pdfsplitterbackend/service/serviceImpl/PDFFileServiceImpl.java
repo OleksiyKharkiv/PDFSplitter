@@ -9,6 +9,8 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -71,7 +73,43 @@ public class PDFFileServiceImpl implements PDFFileService {
         return pdfFile.getFileContent();
     }
 
-    // Реализация других методов сервиса
+    @Override
+    public String uploadPDFFile(byte[] fileContent) {
+        // Реализация загрузки и сохранения файла в базе данных
+    }
+
+    @Override
+    public Resource getMergedPDFFileById(String fileId) throws IOException {
+        // Логика получения объединенного файла по идентификатору
+        PDFFile mergedFile = pdfFileRepository.findById(fileId)
+                .orElseThrow(() -> new FileNotFoundException("File not found"));
+
+        return new ByteArrayResource(mergedFile.getFileContent());
+    }
+
+    @Override
+    public byte[] mergePDFFiles(List<String> fileIds) throws IOException {
+        // Логика объединения PDF-файлов
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PdfMerger merger = new PdfMerger(new PdfDocument(new PdfWriter(outputStream)));
+
+        for (String fileId : fileIds) {
+            PDFFileDTO pdfFile = pdfFileRepository.findById(fileId)
+                    .orElseThrow(() -> new FileNotFoundException("File not found"));
+
+            byte[] fileContent = pdfFile.getFileContent();
+            PdfReader reader = new PdfReader(new ByteArrayInputStream(fileContent));
+
+            merger.merge(reader, 1, reader.getNumberOfPages());
+
+            reader.close();
+        }
+
+        merger.close();
+
+        return outputStream.toByteArray();
+    }
+
 
     private PDFFileDTO convertToDTO(PDFFile pdfFile) {
         // Конвертирование PDFFile в PDFFileDTO

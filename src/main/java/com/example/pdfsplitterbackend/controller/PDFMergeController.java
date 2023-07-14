@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/pdf/merge")
@@ -23,7 +24,7 @@ public class PDFMergeController {
     public ResponseEntity<String> mergePDFFiles(@RequestParam("fileIds") String[] fileIds) {
         try {
             // Логика объединения PDF-файлов и получения идентификатора объединенного файла
-            String mergedFileId = pdfFileService.mergePDFFiles(fileIds);
+            String mergedFileId = pdfFileService.mergePDFFiles(List.of(fileIds));
             return ResponseEntity.ok(mergedFileId);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to merge PDF files.");

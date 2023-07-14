@@ -12,4 +12,8 @@ public class PDFFileDTO {
 
     public PDFFileDTO(String id, String title, int sizeKb, int numberOfPages, byte[] fileContent) {
     }
+
+    public String getFileName() {
+        return title;
+    }
 }

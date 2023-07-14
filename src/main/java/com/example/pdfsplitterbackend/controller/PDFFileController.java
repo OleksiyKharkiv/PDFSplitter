@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/pdf")
@@ -33,9 +32,9 @@ public class PDFFileController {
     public ResponseEntity<byte[]> downloadPDFFile(@PathVariable("id") String fileId) {
         try {
             byte[] fileContent = pdfFileService.getPDFFileContentById(fileId);
+            PDFFileDTO pdfFile = pdfFileService.getPDFFileById(fileId);
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachment", "filename.pdf");
+            headers.setContentDispositionFormData("attachment", pdfFile.getFileName());
             headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
             return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
         } catch (IOException e) {
