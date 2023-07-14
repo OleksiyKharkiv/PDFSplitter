@@ -74,8 +74,13 @@ public class PDFFileServiceImpl implements PDFFileService {
     }
 
     @Override
-    public String uploadPDFFile(byte[] fileContent) {
-        // Реализация загрузки и сохранения файла в базе данных
+    public String uploadPDFFile(MultipartFile file) throws IOException {
+        // Реализация загрузки файла и сохранения его в базе данных
+        // Вернуть идентификатор загруженного файла
+        byte[] fileContent = file.getBytes();
+        PDFFile pdfFile = new PDFFile(file.getOriginalFilename(), file.getSize(), fileContent);
+        PDFFile savedFile = pdfFileRepository.save(pdfFile);
+        return savedFile.getId();
     }
 
     @Override

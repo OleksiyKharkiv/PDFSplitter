@@ -2,6 +2,8 @@ package com.example.pdfsplitterbackend.controller;
 
 import com.example.pdfsplitterbackend.dto.PDFFileDTO;
 import com.example.pdfsplitterbackend.service.PDFFileService;
+import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,32 +15,30 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/pdf/merge")
+@RequiredArgsConstructor
 public class PDFMergeController {
+
     private final PDFFileService pdfFileService;
 
-    public PDFMergeController(PDFFileService pdfFileService) {
-        this.pdfFileService = pdfFileService;
-    }
-
-    @PostMapping("/files")
-    public ResponseEntity<String> mergePDFFiles(@RequestParam("fileIds") String[] fileIds) {
+    @PostMapping
+    public ResponseEntity<String> mergePDFFiles(@RequestBody List<String> fileIds) {
         try {
-            // Логика объединения PDF-файлов и получения идентификатора объединенного файла
-            String mergedFileId = pdfFileService.mergePDFFiles(List.of(fileIds));
+            String mergedFileId = pdfFileService.mergePDFFiles(fileIds);
             return ResponseEntity.ok(mergedFileId);
+        } catch (FileNotFoundException e) {
+            return ResponseEntity.notFound().build();
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to merge PDF files.");
         }
     }
 
-    @GetMapping("/file/{id}")
-    public ResponseEntity<byte[]> downloadMergedPDFFile(@PathVariable("id") String fileId) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Resource> getMergedPDFFile(@PathVariable("id") String fileId) {
         try {
-            // Логика получения объединенного файла по идентификатору
-            byte[] mergedFileContent = pdfFileService.getMergedPDFFileContentById(fileId);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentDispositionFormData("attachment", "merged.pdf");
-            return new ResponseEntity<>(mergedFileContent, headers, HttpStatus.OK);
+            Resource mergedFileResource = pdfFileService.getMergedPDFFileById(fileId);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + mergedFileResource.getFilename() + "\"")
+                    .body(mergedFileResource);
         } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (IOException e) {
@@ -46,5 +46,33 @@ public class PDFMergeController {
         }
     }
 
-    // Другие методы контроллера для обработки объединения PDF-файлов
+    @GetMapping("/file/{id}")
+    public ResponseEntity<Resource> downloadPDFFile(@PathVariable("id") String fileId) {
+        try {
+            PDFFileDTO fileResource = pdfFileService.getPDFFileById(fileId);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
+                    .body(fileResource);
+        } catch (FileNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<PDFFileDTO>> getAllPDFFiles() {
+        List<PDFFileDTO> pdfFiles = pdfFileService.getAllPDFFiles();
+        return ResponseEntity.ok(pdfFiles);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePDFFile(@PathVariable("id") String fileId) throws FileNotFoundException {
+        try {
+            pdfFileService.deletePDFFile(fileId);
+            return ResponseEntity.ok("PDF file deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete PDF file.");
+        }
+    }
 }
