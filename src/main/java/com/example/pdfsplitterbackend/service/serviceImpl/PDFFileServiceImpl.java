@@ -29,7 +29,10 @@ public class PDFFileServiceImpl implements PDFFileService {
     public String uploadPDFFile(MultipartFile file) throws IOException {
         // Реализация загрузки файла и сохранения его в базе данных
         // Вернуть идентификатор загруженного файла
-        return "fileId";
+        byte[] fileContent = file.getBytes();
+        PDFFile pdfFile = new PDFFile(file.getOriginalFilename(), file.getSize(), fileContent);
+        PDFFile savedFile = pdfFileRepository.save(pdfFile);
+        return savedFile.getId();
     }
 
     @Override
@@ -73,15 +76,7 @@ public class PDFFileServiceImpl implements PDFFileService {
         return pdfFile.getFileContent();
     }
 
-    @Override
-    public String uploadPDFFile(MultipartFile file) throws IOException {
-        // Реализация загрузки файла и сохранения его в базе данных
-        // Вернуть идентификатор загруженного файла
-        byte[] fileContent = file.getBytes();
-        PDFFile pdfFile = new PDFFile(file.getOriginalFilename(), file.getSize(), fileContent);
-        PDFFile savedFile = pdfFileRepository.save(pdfFile);
-        return savedFile.getId();
-    }
+
 
     @Override
     public Resource getMergedPDFFileById(String fileId) throws IOException {
