@@ -4,10 +4,15 @@ import com.example.pdfsplitterbackend.dto.PDFFileDTO;
 import com.example.pdfsplitterbackend.entity.PDFFile;
 import com.example.pdfsplitterbackend.repository.PDFFileRepository;
 import com.example.pdfsplitterbackend.service.PDFFileService;
-import org.springframework.core.io.Resource;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.apache.pdfbox.io.IOUtils;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
+import org.apache.pdfbox.pdmodel.PDDocument;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -77,7 +82,6 @@ public class PDFFileServiceImpl implements PDFFileService {
     }
 
 
-
     @Override
     public Resource getMergedPDFFileById(String fileId) throws IOException {
         // Логика получения объединенного файла по идентификатору
@@ -87,29 +91,39 @@ public class PDFFileServiceImpl implements PDFFileService {
         return new ByteArrayResource(mergedFile.getFileContent());
     }
 
+
     @Override
-    public byte[] mergePDFFiles(List<String> fileIds) throws IOException {
-        // Логика объединения PDF-файлов
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PdfMerger merger = new PdfMerger(new PdfDocument(new PdfWriter(outputStream)));
+    public PDFFileDTO mergePDFFiles(List<String> fileIds) {
+        try {
+            PDFMergerUtility merger = new PDFMergerUtility();
 
-        for (String fileId : fileIds) {
-            PDFFileDTO pdfFile = pdfFileRepository.findById(fileId)
-                    .orElseThrow(() -> new FileNotFoundException("File not found"));
+            for (String fileId : fileIds) {
+                PDFFile pdfFile = pdfFileRepository.findById(fileId)
+                        .orElseThrow(() -> new FileNotFoundException("File not found"));
+                byte[] fileContent = pdfFile.getFileContent();
+                PDDocument document = PDDocument.load(new ByteArrayInputStream(fileContent));
+                merger.appendDocument(document);
+                document.close();
+            }
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            merger.save(outputStream);
+            merger.reset();
 
-            byte[] fileContent = pdfFile.getFileContent();
-            PdfReader reader = new PdfReader(new ByteArrayInputStream(fileContent));
+            byte[] mergedFileContent = outputStream.toByteArray();
 
-            merger.merge(reader, 1, reader.getNumberOfPages());
+            // Сохранение объединенного файла в базе данных
+            String mergedFileId = "mergedFileId";
+            PDFFile mergedPDFFile = new PDFFile(mergedFileId, mergedFileContent.length, mergedFileContent);
+            pdfFileRepository.save(mergedPDFFile);
 
-            reader.close();
+            // Вернуть DTO объединенного файла
+            return convertToDTO(mergedPDFFile);
+        } catch (IOException e) {
+            // Обработка ошибки
+            e.printStackTrace();
+            return null;
         }
-
-        merger.close();
-
-        return outputStream.toByteArray();
     }
-
 
     private PDFFileDTO convertToDTO(PDFFile pdfFile) {
         // Конвертирование PDFFile в PDFFileDTO

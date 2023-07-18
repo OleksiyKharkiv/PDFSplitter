@@ -37,7 +37,7 @@ public class PDFMergeController {
         try {
             Resource mergedFileResource = pdfFileService.getMergedPDFFileById(fileId);
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + mergedFileResource.getFilename() + "\"")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + mergedFileResource.getMergedPDFFileById() + "\"")
                     .body(mergedFileResource);
         } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -51,7 +51,7 @@ public class PDFMergeController {
         try {
             PDFFileDTO fileResource = pdfFileService.getPDFFileById(fileId);
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFileName() + "\"")
                     .body(fileResource);
         } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
