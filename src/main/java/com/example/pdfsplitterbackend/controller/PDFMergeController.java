@@ -35,10 +35,11 @@ public class PDFMergeController {
     @GetMapping("/{id}")
     public ResponseEntity<Resource> getMergedPDFFile(@PathVariable("id") String fileId) {
         try {
-            Resource mergedFileResource = pdfFileService.getMergedPDFFileById(fileId);
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + mergedFileResource.getMergedPDFFileById() + "\"")
-                    .body(mergedFileResource);
+            Resource mergedFileResource = (Resource) pdfFileService.getMergedPDFFileById(fileId);
+            ResponseEntity.BodyBuilder ok = ResponseEntity.ok();
+            ok.header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=\"" + mergedFileResource.name() + "\"");
+            return ok.body(mergedFileResource);
         } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (IOException e) {
@@ -46,13 +47,14 @@ public class PDFMergeController {
         }
     }
 
+
     @GetMapping("/file/{id}")
     public ResponseEntity<Resource> downloadPDFFile(@PathVariable("id") String fileId) {
         try {
             PDFFileDTO fileResource = pdfFileService.getPDFFileById(fileId);
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFileName() + "\"")
-                    .body(fileResource);
+                    .body((Resource) fileResource);
         } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (IOException e) {
