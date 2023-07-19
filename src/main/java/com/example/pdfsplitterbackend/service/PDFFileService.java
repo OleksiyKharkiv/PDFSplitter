@@ -21,8 +21,10 @@ public interface PDFFileService {
 
     byte[] getPDFFileContentById(String fileId) throws IOException;
 
-    Resource getMergedPDFFileById(String fileId) throws IOException;
+    PDFFileDTO getMergedPDFFileById(String fileId) throws IOException;
 
     String mergePDFFiles(List<String> fileIds) throws IOException;
-    // Другие методы сервиса
+
+    int calculateNumberOfPages(byte[] fileContent);
+
 }

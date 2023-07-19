@@ -1,8 +1,6 @@
 package com.example.pdfsplitterbackend.service.serviceImpl;
 
-import lombok.AllArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.io.IOUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -14,26 +12,16 @@ import com.example.pdfsplitterbackend.service.PDFFileService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.apache.pdfbox.pdmodel.PDDocument;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.io.IOUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 
 @Data
 @Service
@@ -94,6 +82,11 @@ public class PDFFileServiceImpl implements PDFFileService {
     }
 
     @Override
+    public PDFFileDTO getMergedPDFFileById(String fileId) throws IOException {
+        return null;
+    }
+
+    @Override
     public String mergePDFFiles(List<String> fileIds) {
         try {
             PDFMergerUtility merger = new PDFMergerUtility();
@@ -102,9 +95,13 @@ public class PDFFileServiceImpl implements PDFFileService {
                 PDFFile pdfFile = pdfFileRepository.findById(fileId)
                         .orElseThrow(() -> new FileNotFoundException("File not found"));
                 byte[] fileContent = pdfFile.getFileContent();
-                PDDocument document = PDDocument.load(new ByteArrayInputStream(fileContent));
-                merger.appendDocument(document);
-                document.close();
+
+                try (PDDocument document = PDDocument.load(new ByteArrayInputStream(fileContent))) {
+                    merger.appendDocument(document, document);
+                } catch (IOException e) {
+                    // Обработка ошибки
+                    e.printStackTrace();
+                }
             }
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -115,16 +112,24 @@ public class PDFFileServiceImpl implements PDFFileService {
 
             // Сохранение объединенного файла в базе данных
             String mergedFileId = UUID.randomUUID().toString();
-            PDFFile mergedPDFFile = new PDFFile(mergedFileId, mergedFileContent.length, mergedFileContent);
+            String mergedFileTitle = "Merged File";
+            int mergedFileSize = mergedFileContent.length;
+            int mergedFileNumberOfPages = calculateNumberOfPages(mergedFileContent); // Здесь нужно определить логику для определения количества страниц
+            PDFFile mergedPDFFile = new PDFFile(mergedFileId, mergedFileTitle, mergedFileSize, mergedFileNumberOfPages, mergedFileContent);
             pdfFileRepository.save(mergedPDFFile);
 
-            // Вернуть DTO объединенного файла
-            return convertToDTO(mergedPDFFile);
+            // Вернуть идентификатор объединенного файла
+            return mergedFileId;
         } catch (IOException e) {
             // Обработка ошибки
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public int calculateNumberOfPages(byte[] fileContent) {
+        return 0;
     }
 
     private PDFFileDTO convertToDTO(PDFFile pdfFile) {
