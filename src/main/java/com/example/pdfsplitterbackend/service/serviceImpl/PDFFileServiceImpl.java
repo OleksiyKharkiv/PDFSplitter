@@ -1,24 +1,23 @@
 package com.example.pdfsplitterbackend.service.serviceImpl;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
 import com.example.pdfsplitterbackend.dto.PDFFileDTO;
 import com.example.pdfsplitterbackend.entity.PDFFile;
 import com.example.pdfsplitterbackend.repository.PDFFileRepository;
 import com.example.pdfsplitterbackend.service.PDFFileService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -103,11 +102,9 @@ public class PDFFileServiceImpl implements PDFFileService {
                     e.printStackTrace();
                 }
             }
-
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            merger.save(outputStream);
-            merger.reset();
-
+            merger.setDestinationFileName(outputStream.toString());
+            merger.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
             byte[] mergedFileContent = outputStream.toByteArray();
 
             // Сохранение объединенного файла в базе данных
