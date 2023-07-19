@@ -115,6 +115,12 @@
             <artifactId>pdfbox-tools</artifactId>
             <version>2.0.26</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.Al-PdR/bonita-extension-library -->
+        <dependency>
+            <groupId>io.github.Al-PdR</groupId>
+            <artifactId>bonita-extension-library</artifactId>
+            <version>1.1</version>
+        </dependency>
 
 
     </dependencies>
