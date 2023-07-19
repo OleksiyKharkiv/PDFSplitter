@@ -1,5 +1,12 @@
 package com.example.pdfsplitterbackend.service.serviceImpl;
 
+import lombok.AllArgsConstructor;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.io.IOUtils;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
 import com.example.pdfsplitterbackend.dto.PDFFileDTO;
 import com.example.pdfsplitterbackend.entity.PDFFile;
 import com.example.pdfsplitterbackend.repository.PDFFileRepository;
@@ -21,6 +28,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.io.IOUtils;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 @Data
 @Service
@@ -91,7 +104,6 @@ public class PDFFileServiceImpl implements PDFFileService {
                 byte[] fileContent = pdfFile.getFileContent();
                 PDDocument document = PDDocument.load(new ByteArrayInputStream(fileContent));
                 merger.appendDocument(document);
-
                 document.close();
             }
 
