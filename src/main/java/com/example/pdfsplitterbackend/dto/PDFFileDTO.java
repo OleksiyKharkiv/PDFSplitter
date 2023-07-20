@@ -16,5 +16,4 @@ public class PDFFileDTO {
     public String getFileName() {
         return title;
     }
-
 }

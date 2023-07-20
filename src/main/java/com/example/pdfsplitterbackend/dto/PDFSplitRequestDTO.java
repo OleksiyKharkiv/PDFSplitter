@@ -13,6 +13,4 @@ public class PDFSplitRequestDTO {
     int pageQuantityGroup;
     int splitSizeKb;
     List<Integer> splitPagesList;
-
-
 }

@@ -6,8 +6,11 @@ public enum SplitMode {
     GROUP_BY_PAGE_COUNT(2),
     SPLIT_BY_SIZE(3),
     SPLIT_BY_PAGES_RANGE(4);
-    private int value;
-SplitMode(int value){this.value = value;}
+    private final int value;
+
+    SplitMode(int value) {
+        this.value = value;
+    }
 
     public int getValue() {
         return value;

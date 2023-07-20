@@ -37,6 +37,4 @@ public class PDFFileController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
-    // Другие методы контроллера для обработки разбиения, объединения и других операций с PDF-файлами
 }
