@@ -108,6 +108,57 @@
             <artifactId>mapstruct</artifactId>
             <version>1.5.3.Final</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.jfr</groupId>
+            <artifactId>jfr-streaming</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.andromda.thirdparty.jaxb2_commons/xml-element-wrapper -->
+        <dependency>
+            <groupId>org.andromda.thirdparty.jaxb2_commons</groupId>
+            <artifactId>xml-element-wrapper</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.jmodel/com.github.jmodel.mapper.api -->
+        <dependency>
+            <groupId>com.github.jmodel</groupId>
+            <artifactId>com.github.jmodel.mapper.api</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.jmodel/com.github.jmodel.validation.api -->
+        <dependency>
+            <groupId>com.github.jmodel</groupId>
+            <artifactId>com.github.jmodel.validation.api</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.jfr</groupId>
+            <artifactId>jfr-streaming</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>lein-jdk-tools</groupId>
+            <artifactId>lein-jdk-tools</artifactId>
+            <version>0.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.jfr</groupId>
+            <artifactId>jfr-streaming</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

@@ -2,6 +2,7 @@ package com.example.pdfsplitterbackend.service.serviceImpl;
 
 import com.example.pdfsplitterbackend.dto.PDFFileDTO;
 import com.example.pdfsplitterbackend.entity.PDFFile;
+import com.example.pdfsplitterbackend.mapper.PDFFileMapper;
 import com.example.pdfsplitterbackend.repository.PDFFileRepository;
 import com.example.pdfsplitterbackend.service.PDFFileService;
 import lombok.Data;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class PDFFileServiceImpl implements PDFFileService {
 
     private final PDFFileRepository pdfFileRepository;
+    private final PDFFileMapper pdfFileMapper; // Импортируйте класс PDFFileMapper
 
     @Override
     public String uploadPDFFile(MultipartFile file) throws IOException {
@@ -51,20 +53,19 @@ public class PDFFileServiceImpl implements PDFFileService {
 
     @Override
     public List<PDFFileDTO> getAllPDFFiles() {
-        // Реализация получения списка всех PDF-файлов из базы данных и преобразование их в DTO
         List<PDFFile> pdfFiles = pdfFileRepository.findAll();
         return pdfFiles.stream()
-                .map(this::convertToDTO)
+                .map(pdfFileMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public PDFFileDTO getPDFFileById(String fileId) throws FileNotFoundException {
-        // Реализация получения конкретного PDF-файла из базы данных по его идентификатору и преобразование его в DTO
         PDFFile pdfFile = pdfFileRepository.findById(fileId)
                 .orElseThrow(() -> new FileNotFoundException("File not found"));
-        return convertToDTO(pdfFile);
+        return pdfFileMapper.toDTO(pdfFile);
     }
+
 
     @Override
     public void deletePDFFile(String fileId) {
