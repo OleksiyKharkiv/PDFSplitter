@@ -1,0 +1,132 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-master.yaml
+  - changeSet:
+      id: 1
+      author: pdf_splitter_username
+      changes:
+        - createTable:
+            tableName: pdf_file
+            columns:
+              - column:
+                  name: id
+                  type: varchar(50)
+              #                    autoIncrement: true
+              #                    constraints:
+              #                      primaryKey: true
+              #                      nullable: false
+              - column:
+                  name: title
+                  type: varchar(100)
+              - column:
+                  name: size_Kb
+                  type: integer
+              - column:
+                  name: number_of_pages
+                  type: integer
+              - column:
+                  name: file_content
+                  type: BLOB
+        - createTable:
+            tableName: pdf_page
+            columns:
+              - column:
+                  name: id
+                  type: varchar(50)
+              #                    autoIncrement: true
+              #                    constraints:
+              #                      primaryKey: true
+              #                      nullable: false
+              - column:
+                  name: title
+                  type: varchar(100)
+              #                    autoIncrement: true
+              #                    constraints:
+              #                      foreignKey: true
+              #                      nullable: false
+              - column:
+                  name: size_Kb
+                  type: integer
+              - column:
+                  name: number_of_pages
+                  type: integer
+              - column:
+                  name: file-content
+                  type: BLOB
+
+        - createTable:
+            tableName: result_file
+            columns:
+              - column:
+                  name: id
+                  type: integer
+              #                    autoIncrement: true
+              #                    constraints:
+              #                      primaryKey: true
+              #                      nullable: false
+              - column:
+                  name: original_file_id
+                  type: integer
+              #                    autoIncrement: true
+              #                    constraints:
+              #                      foreignKey: true
+              #                      nullable: false
+              - column:
+                  name: result_file_name
+                  type: varchar(100)
+              - column:
+                  name: result_file_size
+                  type: integer
+              #                    constraints:
+              #                      nullable: false
+              - column:
+                  name: number_of_pages
+                  type: integer
+              - column:
+                  name: file_content
+                  type: BLOB
+        - createTable:
+            tableName: split_request
+            columns:
+              - column:
+                  name: id
+                  type: varchar(50)
+              #                    autoIncrement: true
+              #                    constraints:
+              #                      primaryKey: true
+              #                      nullable: false
+              - column:
+                  name: original_file__id
+                  type: integer
+              #                    autoIncrement: true
+              #                    constraints:
+              #                      foreignKey: true
+              #                      nullable: false
+              - column:
+                  name: split_mode
+                  type: TINYINT
+              - column:
+                  name: split_value
+                  type: integer
+              - column:
+                  name: request_status
+                  type: TINYINT
+
+  - changeSet:
+      id: 2
+      author: pdf_splitter_username
+      changes:
+        - insert:
+            tableName: pdf_file
+            columns:
+              - column:
+                  name: id
+                  value: 157777
+              - column:
+                  name: title
+                  value: Dunkirk
+              - column:
+                  name: size_Kb
+                  value: 150
+              - column:
+                  name: number_of_pages
+                  value: 277

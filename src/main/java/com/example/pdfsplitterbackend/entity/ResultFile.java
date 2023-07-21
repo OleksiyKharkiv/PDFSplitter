@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "processed_file")
+@Table(name = "result_file")
 public class ResultFile {
     @Id
     @Column(name = "id")
@@ -14,10 +14,10 @@ public class ResultFile {
     private int id;
     @Column(name = "original_file_id")
     private int originalFileId;
-    @Column(name = "processed_file_name")
-    private String processedFileName;
-    @Column(name = "processed_file_size")
-    private int processedFileSizeKb;
+    @Column(name = "result_file_name")
+    private String resultFileName;
+    @Column(name = "result_file_size")
+    private int resultFileSizeKb;
     @Column(name = "number_of_pages")
     private int numberOfPages;
     @Column(name = "file_content")
