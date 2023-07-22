@@ -20,4 +20,7 @@ public class PDFPage {
     private int numberOfPages;
     @Column(name = "file_content")
     private byte[] fileContent;
+    @ManyToOne
+    @JoinColumn(name = "pdfFile_id")
+    private PDFFile pdfFile;
 }

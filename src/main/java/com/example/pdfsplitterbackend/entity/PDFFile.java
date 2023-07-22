@@ -1,8 +1,11 @@
 package com.example.pdfsplitterbackend.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,4 +26,15 @@ public class PDFFile {
     private int numberOfPages;
     @Column(name = "file_content")
     private byte[] fileContent;
+    @OneToMany(mappedBy = "pdfFile")
+    private List<PDFPage> pdfPages;
+
+    @OneToOne(mappedBy = "originalFile")
+    private ResultFile resultFile;
+
+    @OneToMany(mappedBy = "originalFile")
+    private List<SplitRequest> splitRequests;
+
+//    public PDFFile(String mergedFileId, String mergedFileTitle, int mergedFileSize, int mergedFileNumberOfPages, byte[] mergedFileContent) {
+//    }
 }

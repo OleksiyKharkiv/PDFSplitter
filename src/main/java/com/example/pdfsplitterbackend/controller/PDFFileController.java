@@ -49,4 +49,8 @@ public class PDFFileController {
         List<PDFFileDTO> pdfFiles = pdfFileService.getAllPDFFiles();
         return ResponseEntity.ok(pdfFiles);
     }
+
+    public PDFFileMapper getPdfFileMapper() {
+        return pdfFileMapper;
+    }
 }

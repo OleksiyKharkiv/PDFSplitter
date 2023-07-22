@@ -25,4 +25,7 @@ public class SplitRequest {
     @Column(name = "request_status")
     @Enumerated(EnumType.ORDINAL)
     private RequestStatus requestStatus;
+    @ManyToOne
+    @JoinColumn(name = "original_file_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private PDFFile originalFile;
 }
