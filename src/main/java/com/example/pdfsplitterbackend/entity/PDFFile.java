@@ -35,6 +35,11 @@ public class PDFFile {
     @OneToMany(mappedBy = "originalFile")
     private List<SplitRequest> splitRequests;
 
-//    public PDFFile(String mergedFileId, String mergedFileTitle, int mergedFileSize, int mergedFileNumberOfPages, byte[] mergedFileContent) {
-//    }
+    public PDFFile(String id, String title, int sizeKb, int numberOfPages, byte[] fileContent) {
+        this.id = id;
+        this.title = title;
+        this.sizeKb = sizeKb;
+        this.numberOfPages = numberOfPages;
+        this.fileContent = fileContent;
+    }
 }

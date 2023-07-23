@@ -32,15 +32,15 @@ public class PDFFileServiceImpl implements PDFFileService {
     private final PDFFileMapper pdfFileMapper; // Импортируйте класс PDFFileMapper
 
     @Override
-    public String uploadPDFFile(MultipartFile file) throws IOException {
+    public String uploadPDFFile(MultipartFile file) {
         // Реализация загрузки файла и сохранения его в базе данных
-        // вернуть идентификатор загруженного файла
+        // возвращается идентификатор загруженного файла
         String fileId = UUID.randomUUID().toString();
-        byte[] fileContent = file.getBytes();
         PDFFile pdfFile = new PDFFile();
         pdfFileRepository.save(pdfFile);
         return fileId;
     }
+
 
     @Override
     public Resource downloadPDFFile(String fileId) throws FileNotFoundException {
@@ -83,7 +83,34 @@ public class PDFFileServiceImpl implements PDFFileService {
 
     @Override
     public PDFFileDTO getMergedPDFFileById(String fileId) throws IOException {
-        return null;
+        PDFFile mergedPDFFile = mergePDFFiles();
+        return pdfFileMapper.toDTO(mergedPDFFile);
+    }
+
+    private PDFFile mergePDFFiles() throws IOException {
+        try {
+            PDFMergerUtility merger = new PDFMergerUtility();
+
+            // ... (ваш код для объединения файлов)
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            merger.setDestinationFileName(outputStream.toString());
+            merger.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
+            byte[] mergedFileContent = outputStream.toByteArray();
+
+            PDFFile mergedPDFFile = new PDFFile();
+            mergedPDFFile.setId(UUID.randomUUID().toString());
+            mergedPDFFile.setTitle("Merged File");
+            mergedPDFFile.setSizeKb(mergedFileContent.length);
+            mergedPDFFile.setNumberOfPages(calculateNumberOfPages(mergedFileContent));
+            mergedPDFFile.setFileContent(mergedFileContent);
+
+            return pdfFileRepository.save(mergedPDFFile);
+        } catch (IOException e) {
+            // Обработка ошибки
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @Override
