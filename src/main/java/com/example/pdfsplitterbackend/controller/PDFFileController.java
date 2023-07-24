@@ -4,6 +4,7 @@ import com.example.pdfsplitterbackend.dto.PDFFileDTO;
 import com.example.pdfsplitterbackend.mapper.PDFFileMapper;
 import com.example.pdfsplitterbackend.service.PDFFileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +22,7 @@ import java.util.List;
 public class PDFFileController {
 
     private final PDFFileService pdfFileService;
+    @Qualifier("PDFFileMapper")
     private final PDFFileMapper pdfFileMapper;
 
     @PostMapping("/upload")
@@ -30,7 +32,7 @@ public class PDFFileController {
     }
 
     @GetMapping("/file/{id}")
-    public ResponseEntity<Resource> downloadPDFFile(@PathVariable("id") String fileId) {
+    public ResponseEntity<Resource> downloadPDFFile(@PathVariable("id") int fileId) {
         try {
             byte[] fileContent = pdfFileService.getPDFFileContentById(fileId);
             PDFFileDTO pdfFile = pdfFileService.getPDFFileById(fileId);

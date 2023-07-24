@@ -21,19 +21,19 @@ public class PDFMergeController {
     private final PDFFileService pdfFileService;
 
     @PostMapping
-    public ResponseEntity<String> mergePDFFiles(@RequestBody List<String> fileIds) {
+    public ResponseEntity<Integer> mergePDFFiles(@RequestBody List<String> fileIds) {
         try {
-            String mergedFileId = pdfFileService.mergePDFFiles(fileIds);
+            int mergedFileId = pdfFileService.mergePDFFiles(fileIds);
             return ResponseEntity.ok(mergedFileId);
         } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to merge PDF files.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Integer.valueOf("Failed to merge PDF files."));
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Resource> getMergedPDFFile(@PathVariable("id") String fileId) {
+    public ResponseEntity<Resource> getMergedPDFFile(@PathVariable("id") int fileId) {
         try {
             Resource mergedFileResource = (Resource) pdfFileService.getMergedPDFFileById(fileId);
             ResponseEntity.BodyBuilder ok = ResponseEntity.ok();
@@ -49,7 +49,7 @@ public class PDFMergeController {
 
 
     @GetMapping("/file/{id}")
-    public ResponseEntity<Resource> downloadPDFFile(@PathVariable("id") String fileId) {
+    public ResponseEntity<Resource> downloadPDFFile(@PathVariable("id") int fileId) {
         try {
             PDFFileDTO fileResource = pdfFileService.getPDFFileById(fileId);
             return ResponseEntity.ok()

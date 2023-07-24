@@ -15,15 +15,15 @@ public interface PDFFileService {
 
     List<PDFFileDTO> getAllPDFFiles();
 
-    PDFFileDTO getPDFFileById(String fileId) throws FileNotFoundException;
+    PDFFileDTO getPDFFileById(int fileId) throws FileNotFoundException;
 
     void deletePDFFile(String fileId);
 
-    byte[] getPDFFileContentById(String fileId) throws IOException;
+    byte[] getPDFFileContentById(int fileId) throws IOException;
 
-    PDFFileDTO getMergedPDFFileById(String fileId) throws IOException;
+    PDFFileDTO getMergedPDFFileById(int fileId) throws IOException;
 
-    String mergePDFFiles(List<String> fileIds) throws IOException;
+    int mergePDFFiles(List<String> fileIds) throws IOException;
 
     int calculateNumberOfPages(byte[] fileContent);
 

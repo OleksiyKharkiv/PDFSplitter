@@ -11,9 +11,9 @@ public class PDFPage {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
     @Column(name = "page_number")
-    private String title;
+    private int pageNumber;
     @Column(name = "size_Kb")
     private int sizeKb;
     @Column(name = "number_of_pages")

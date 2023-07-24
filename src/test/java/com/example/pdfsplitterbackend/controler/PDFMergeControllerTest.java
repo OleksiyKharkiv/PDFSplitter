@@ -46,7 +46,7 @@ public class PDFMergeControllerTest {
         List<String> fileIds = Arrays.asList("fileId1", "fileId2", "fileId3");
         String mergedFileId = "mergedFileId123";
 
-        when(pdfFileService.mergePDFFiles(fileIds)).thenReturn(mergedFileId);
+        when(pdfFileService.mergePDFFiles(fileIds)).thenReturn(Integer.valueOf(mergedFileId));
 
         mockMvc.perform(post("/api/pdf/merge")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -57,7 +57,7 @@ public class PDFMergeControllerTest {
 
     @Test
     public void testGetMergedPDFFile() throws Exception {
-        String fileId = "mergedFileId123";
+        int fileId = 567;
         byte[] fileContent = "pdf content".getBytes();
         String fileName = "merged.pdf";
 

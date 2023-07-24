@@ -50,7 +50,7 @@ public class PDFFileControllerTest {
 
     @Test
     public void testDownloadPDFFile() throws Exception {
-        String fileId = "fileId123";
+        int fileId = 123;
         byte[] fileContent = "pdf content".getBytes();
         String fileName = "test.pdf";
 

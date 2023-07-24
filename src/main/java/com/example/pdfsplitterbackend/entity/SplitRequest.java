@@ -14,7 +14,7 @@ public class SplitRequest {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
     @Column(name = "original_file_id")
     private int originalFileId;
     @Column(name = "split_mode")

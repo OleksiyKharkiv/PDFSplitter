@@ -7,7 +7,7 @@ import java.util.List;
 
 @Value
 public class PDFSplitRequestDTO {
-    String pdfFileId;
+    int pdfFileId;
     SplitMode splitMode;
     int pageNumberFrom;
     int pageQuantityGroup;

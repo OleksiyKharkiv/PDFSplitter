@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,8 @@ import java.util.stream.Collectors;
 public class PDFFileServiceImpl implements PDFFileService {
 
     private final PDFFileRepository pdfFileRepository;
-    private final PDFFileMapper pdfFileMapper; // Импортируйте класс PDFFileMapper
+    @Qualifier("PDFFileMapper")
+    private final PDFFileMapper pdfFileMapper;
 
     @Override
     public String uploadPDFFile(MultipartFile file) {
@@ -60,8 +62,8 @@ public class PDFFileServiceImpl implements PDFFileService {
     }
 
     @Override
-    public PDFFileDTO getPDFFileById(String fileId) throws FileNotFoundException {
-        PDFFile pdfFile = pdfFileRepository.findById(fileId)
+    public PDFFileDTO getPDFFileById(int fileId) throws FileNotFoundException {
+        PDFFile pdfFile = pdfFileRepository.findById(String.valueOf(fileId))
                 .orElseThrow(() -> new FileNotFoundException("File not found"));
         return pdfFileMapper.toDTO(pdfFile);
     }
@@ -74,15 +76,15 @@ public class PDFFileServiceImpl implements PDFFileService {
     }
 
     @Override
-    public byte[] getPDFFileContentById(String fileId) throws IOException {
+    public byte[] getPDFFileContentById(int fileId) throws IOException {
         // Логика получения файла по идентификатору и возврат его содержимого в виде массива байтов
-        PDFFile pdfFile = pdfFileRepository.findById(fileId)
+        PDFFile pdfFile = pdfFileRepository.findById(String.valueOf(fileId))
                 .orElseThrow(() -> new FileNotFoundException("File not found"));
         return pdfFile.getFileContent();
     }
 
     @Override
-    public PDFFileDTO getMergedPDFFileById(String fileId) throws IOException {
+    public PDFFileDTO getMergedPDFFileById(int fileId) throws IOException {
         PDFFile mergedPDFFile = mergePDFFiles();
         return pdfFileMapper.toDTO(mergedPDFFile);
     }
@@ -99,7 +101,7 @@ public class PDFFileServiceImpl implements PDFFileService {
             byte[] mergedFileContent = outputStream.toByteArray();
 
             PDFFile mergedPDFFile = new PDFFile();
-            mergedPDFFile.setId(UUID.randomUUID().toString());
+            mergedPDFFile.setId(Integer.parseInt(UUID.randomUUID().toString()));
             mergedPDFFile.setTitle("Merged File");
             mergedPDFFile.setSizeKb(mergedFileContent.length);
             mergedPDFFile.setNumberOfPages(calculateNumberOfPages(mergedFileContent));
@@ -114,7 +116,7 @@ public class PDFFileServiceImpl implements PDFFileService {
     }
 
     @Override
-    public String mergePDFFiles(List<String> fileIds) {
+    public int mergePDFFiles(List<String> fileIds) {
         try {
             PDFMergerUtility merger = new PDFMergerUtility();
 
@@ -136,7 +138,7 @@ public class PDFFileServiceImpl implements PDFFileService {
             byte[] mergedFileContent = outputStream.toByteArray();
 
             // Сохранение объединенного файла в базе данных
-            String mergedFileId = UUID.randomUUID().toString();
+            int mergedFileId = Integer.parseInt(UUID.randomUUID().toString());
             String mergedFileTitle = "Merged File";
             int mergedFileSize = mergedFileContent.length;
             int mergedFileNumberOfPages = calculateNumberOfPages(mergedFileContent); // Здесь нужно определить логику для определения количества страниц
@@ -148,7 +150,7 @@ public class PDFFileServiceImpl implements PDFFileService {
         } catch (IOException e) {
             // Обработка ошибки
             e.printStackTrace();
-            return null;
+            return -1;
         }
     }
 

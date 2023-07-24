@@ -22,8 +22,7 @@ public class ResultFile {
     private int numberOfPages;
     @Column(name = "file_content")
     private byte[] fileContent;
-    @OneToOne
-    @JoinColumn(name = "original_file_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private PDFFile originalFile;
-
+//    @OneToOne
+//    @JoinColumn(name = "original_file_id", referencedColumnName = "id", insertable = false, updatable = false)
+//    private PDFFile originalFile;
 }

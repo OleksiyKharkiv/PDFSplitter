@@ -1,7 +1,7 @@
 package com.example.pdfsplitterbackend.dto;
 
 public class ResultFileDTO {
-    String fileId;
+    int fileId;
     String fileName;
     int fileSizeKb;
 }

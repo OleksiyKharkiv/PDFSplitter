@@ -8,16 +8,16 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "pdf_file")
 
 public class PDFFile {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
     @Column(name = "title")
     private String title;
     @Column(name = "size_Kb")
@@ -35,7 +35,7 @@ public class PDFFile {
     @OneToMany(mappedBy = "originalFile")
     private List<SplitRequest> splitRequests;
 
-    public PDFFile(String id, String title, int sizeKb, int numberOfPages, byte[] fileContent) {
+    public PDFFile(int id, String title, int sizeKb, int numberOfPages, byte[] fileContent) {
         this.id = id;
         this.title = title;
         this.sizeKb = sizeKb;
