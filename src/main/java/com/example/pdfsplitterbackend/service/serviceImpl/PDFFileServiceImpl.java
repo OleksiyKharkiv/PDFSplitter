@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ import java.util.stream.Collectors;
 public class PDFFileServiceImpl implements PDFFileService {
 
     private final PDFFileRepository pdfFileRepository;
-    @Qualifier("PDFFileMapper")
+
     private final PDFFileMapper pdfFileMapper;
 
     @Override
@@ -43,12 +42,10 @@ public class PDFFileServiceImpl implements PDFFileService {
         return fileId;
     }
 
-
     @Override
     public Resource downloadPDFFile(String fileId) throws FileNotFoundException {
         // Реализация загрузки файла из базы данных и создание объекта Resource для скачивания
-        PDFFile pdfFile = pdfFileRepository.findById(fileId)
-                .orElseThrow(() -> new FileNotFoundException("File not found"));
+        PDFFile pdfFile = pdfFileRepository.findById(fileId).orElseThrow(() -> new FileNotFoundException("File not found"));
         byte[] fileContent = pdfFile.getFileContent();
         return new ByteArrayResource(fileContent);
     }
@@ -56,15 +53,12 @@ public class PDFFileServiceImpl implements PDFFileService {
     @Override
     public List<PDFFileDTO> getAllPDFFiles() {
         List<PDFFile> pdfFiles = pdfFileRepository.findAll();
-        return pdfFiles.stream()
-                .map(pdfFileMapper::toDTO)
-                .collect(Collectors.toList());
+        return pdfFiles.stream().map(pdfFileMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public PDFFileDTO getPDFFileById(int fileId) throws FileNotFoundException {
-        PDFFile pdfFile = pdfFileRepository.findById(String.valueOf(fileId))
-                .orElseThrow(() -> new FileNotFoundException("File not found"));
+        PDFFile pdfFile = pdfFileRepository.findById(String.valueOf(fileId)).orElseThrow(() -> new FileNotFoundException("File not found"));
         return pdfFileMapper.toDTO(pdfFile);
     }
 
@@ -78,8 +72,7 @@ public class PDFFileServiceImpl implements PDFFileService {
     @Override
     public byte[] getPDFFileContentById(int fileId) throws IOException {
         // Логика получения файла по идентификатору и возврат его содержимого в виде массива байтов
-        PDFFile pdfFile = pdfFileRepository.findById(String.valueOf(fileId))
-                .orElseThrow(() -> new FileNotFoundException("File not found"));
+        PDFFile pdfFile = pdfFileRepository.findById(String.valueOf(fileId)).orElseThrow(() -> new FileNotFoundException("File not found"));
         return pdfFile.getFileContent();
     }
 
@@ -121,8 +114,7 @@ public class PDFFileServiceImpl implements PDFFileService {
             PDFMergerUtility merger = new PDFMergerUtility();
 
             for (String fileId : fileIds) {
-                PDFFile pdfFile = pdfFileRepository.findById(fileId)
-                        .orElseThrow(() -> new FileNotFoundException("File not found"));
+                PDFFile pdfFile = pdfFileRepository.findById(fileId).orElseThrow(() -> new FileNotFoundException("File not found"));
                 byte[] fileContent = pdfFile.getFileContent();
 
                 try (PDDocument document = PDDocument.load(new ByteArrayInputStream(fileContent))) {
@@ -162,12 +154,6 @@ public class PDFFileServiceImpl implements PDFFileService {
     private PDFFileDTO convertToDTO(PDFFile pdfFile) {
         // Конвертирование PDFFile в PDFFileDTO
         // Вернуть DTO
-        return new PDFFileDTO(
-                pdfFile.getId(),
-                pdfFile.getTitle(),
-                pdfFile.getSizeKb(),
-                pdfFile.getNumberOfPages(),
-                pdfFile.getFileContent()
-        );
+        return new PDFFileDTO(pdfFile.getId(), pdfFile.getTitle(), pdfFile.getSizeKb(), pdfFile.getNumberOfPages(), pdfFile.getFileContent());
     }
 }

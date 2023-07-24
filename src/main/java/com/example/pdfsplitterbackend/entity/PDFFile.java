@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -26,15 +27,36 @@ public class PDFFile {
     private int numberOfPages;
     @Column(name = "file_content")
     private byte[] fileContent;
-    @OneToMany(mappedBy = "pdfFile")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pdfFile")
     private List<PDFPage> pdfPages;
 
-    @OneToOne(mappedBy = "originalFile")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "originalFile")
     private ResultFile resultFile;
 
-    @OneToMany(mappedBy = "originalFile")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "originalFile")
     private List<SplitRequest> splitRequests;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PDFFile pdfFile = (PDFFile) o;
+        return Objects.equals(id, pdfFile.id) &&
+                Objects.equals(title, pdfFile.title);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title);
+    }
+
+    @Override
+    public String toString() {
+        return "PDFFile{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                // Другие поля класса
+                '}';
+    }
     public PDFFile(int id, String title, int sizeKb, int numberOfPages, byte[] fileContent) {
         this.id = id;
         this.title = title;

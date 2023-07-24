@@ -26,5 +26,4 @@ public interface PDFFileService {
     int mergePDFFiles(List<String> fileIds) throws IOException;
 
     int calculateNumberOfPages(byte[] fileContent);
-
 }

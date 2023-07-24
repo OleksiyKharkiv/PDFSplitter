@@ -4,6 +4,7 @@ import com.example.pdfsplitterbackend.dto.PDFFileDTO;
 import com.example.pdfsplitterbackend.mapper.PDFFileMapper;
 import com.example.pdfsplitterbackend.service.PDFFileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -20,10 +21,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/pdf")
 public class PDFFileController {
-
     private final PDFFileService pdfFileService;
-    @Qualifier("PDFFileMapper")
     private final PDFFileMapper pdfFileMapper;
+
+
+    @Autowired
+    public PDFFileController(@Qualifier("PDFFileMapper") PDFFileMapper pdfFileMapper, PDFFileService pdfFileService) {
+        this.pdfFileMapper = pdfFileMapper;
+        this.pdfFileService = pdfFileService;
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadPDFFile(@RequestParam("file") MultipartFile file) throws IOException {
@@ -46,7 +52,7 @@ public class PDFFileController {
     }
 
     // Метод для получения списка всех PDF-файлов
-        @GetMapping("/all")
+    @GetMapping("/all")
     public ResponseEntity<List<PDFFileDTO>> getAllPDFFiles() {
         List<PDFFileDTO> pdfFiles = pdfFileService.getAllPDFFiles();
         return ResponseEntity.ok(pdfFiles);
