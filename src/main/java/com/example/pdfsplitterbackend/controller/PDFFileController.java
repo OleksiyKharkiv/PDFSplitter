@@ -24,7 +24,6 @@ public class PDFFileController {
     private final PDFFileService pdfFileService;
     private final PDFFileMapper pdfFileMapper;
 
-
     @Autowired
     public PDFFileController(@Qualifier("PDFFileMapper") PDFFileMapper pdfFileMapper, PDFFileService pdfFileService) {
         this.pdfFileMapper = pdfFileMapper;

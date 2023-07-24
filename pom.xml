@@ -40,9 +40,11 @@
             <artifactId>spring-context</artifactId>
             <version>6.0.10</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>3.1.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -220,17 +222,6 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>3.0.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.andromda.thirdparty.jaxb2_commons/xml-element-wrapper -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.andromda.thirdparty.jaxb2_commons</groupId>-->
-        <!--            <artifactId>xml-element-wrapper</artifactId>-->
-        <!--            <version>1.0</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.microsoft.jfr</groupId>-->
-        <!--            <artifactId>jfr-streaming</artifactId>-->
-        <!--            <version>1.2.0</version>-->
-        <!--        </dependency>-->
     </dependencies>
 
     <build>
