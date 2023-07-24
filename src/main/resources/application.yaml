@@ -7,9 +7,12 @@ spring:
     banner-mode: off
 
   datasource:
-    url: ${datasource.url}
+    url: ${jdbc.url}
     username: ${MY_USERNAME}
     password: ${MY_PASSWORD}
+#    url: ${datasource.url}
+#    username: ${MY_USERNAME}
+#    password: ${MY_PASSWORD}
 
   jpa:
     properties:

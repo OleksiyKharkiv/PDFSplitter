@@ -57,8 +57,6 @@ public class PDFMergeController {
                     .body((Resource) fileResource);
         } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
@@ -69,7 +67,7 @@ public class PDFMergeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePDFFile(@PathVariable("id") String fileId) throws FileNotFoundException {
+    public ResponseEntity<String> deletePDFFile(@PathVariable("id") String fileId) {
         try {
             pdfFileService.deletePDFFile(fileId);
             return ResponseEntity.ok("PDF file deleted successfully.");

@@ -1,6 +1,6 @@
 package com.example.pdfsplitterbackend.controler;
 
-import com.example.pdfsplitterbackend.controller.PDFMergeController;
+import com.example.pdfsplitterbackend.controller.PDFFileController;
 import com.example.pdfsplitterbackend.dto.PDFFileDTO;
 import com.example.pdfsplitterbackend.service.PDFFileService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -26,9 +27,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
-@WebMvcTest(PDFMergeController.class)
+@WebMvcTest(PDFFileController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class PDFMergeControllerTest {
 
     @Autowired
