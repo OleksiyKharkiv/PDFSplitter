@@ -16,14 +16,14 @@ public class PDFPage {
     private int id;
     @Column(name = "page_number")
     private int pageNumber;
-    @Column(name = "size_Kb")
+    @Column(name = "size_Mb")
     private int sizeKb;
     @Column(name = "number_of_pages")
     private int numberOfPages;
     @Column(name = "file_content")
     private byte[] fileContent;
     @ManyToOne
-    @JoinColumn(name = "pdfFile_id")
+    @JoinColumn(name = "pdf_file_id", referencedColumnName = "id")
     private PDFFile pdfFile;
     @Override
     public boolean equals(Object o) {

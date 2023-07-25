@@ -33,7 +33,7 @@ public class PDFFileServiceImpl implements PDFFileService {
     private final PDFFileMapper pdfFileMapper;
 
     @Override
-    public String uploadPDFFile(MultipartFile file) {
+    public int uploadPDFFile(MultipartFile file) {
         // Реализация загрузки файла и сохранения его в базе данных
         // возвращается идентификатор загруженного файла
         String fileId = UUID.randomUUID().toString();

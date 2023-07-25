@@ -21,19 +21,20 @@ public class PDFFile {
     private int id;
     @Column(name = "title")
     private String title;
-    @Column(name = "size_Kb")
+    @Column(name = "size_Mb")
     private int sizeKb;
     @Column(name = "number_of_pages")
     private int numberOfPages;
     @Column(name = "file_content")
     private byte[] fileContent;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pdfFile")
+
+    @OneToMany(mappedBy = "pdfFile", cascade = CascadeType.ALL)
     private List<PDFPage> pdfPages;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "originalFile")
+    @OneToOne(mappedBy = "originalFile", cascade = CascadeType.ALL)
     private ResultFile resultFile;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "originalFile")
+    @OneToMany(mappedBy = "originalFile", cascade = CascadeType.ALL)
     private List<SplitRequest> splitRequests;
     @Override
     public boolean equals(Object o) {

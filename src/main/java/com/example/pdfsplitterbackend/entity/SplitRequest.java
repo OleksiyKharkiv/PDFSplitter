@@ -27,9 +27,11 @@ public class SplitRequest {
     @Column(name = "request_status")
     @Enumerated(EnumType.ORDINAL)
     private RequestStatus requestStatus;
+
     @ManyToOne
-    @JoinColumn(name = "original_file_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "original_file_id", referencedColumnName = "id")
     private PDFFile originalFile;
+
     private ResultFile resultFileName;
     private ResultFile resultFileSizeKb;
     private ResultFile numberOfPages;

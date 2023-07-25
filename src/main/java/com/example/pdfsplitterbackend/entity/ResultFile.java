@@ -24,21 +24,22 @@ public class ResultFile {
     private int numberOfPages;
     @Column(name = "file_content")
     private byte[] fileContent;
-//    @OneToOne
-//    @JoinColumn(name = "original_file_id", referencedColumnName = "id", insertable = false, updatable = false)
-//    private PDFFile originalFile;
-@Override
-public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ResultFile that = (ResultFile) o;
-    return Objects.equals(id, that.id) &&
-            Objects.equals(originalFileId, that.originalFileId) &&
-            Objects.equals(resultFileName, that.resultFileName) &&
-            Objects.equals(resultFileSizeKb, that.resultFileSizeKb) &&
-            Objects.equals(numberOfPages, that.numberOfPages) &&
-            Arrays.equals(fileContent, that.fileContent);
-}
+    @OneToOne
+    @JoinColumn(name = "original_file_id", referencedColumnName = "id")
+    private PDFFile originalFile;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResultFile that = (ResultFile) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(originalFileId, that.originalFileId) &&
+                Objects.equals(resultFileName, that.resultFileName) &&
+                Objects.equals(resultFileSizeKb, that.resultFileSizeKb) &&
+                Objects.equals(numberOfPages, that.numberOfPages) &&
+                Arrays.equals(fileContent, that.fileContent);
+    }
 
     @Override
     public int hashCode() {
@@ -55,7 +56,6 @@ public boolean equals(Object o) {
                 ", resultFileName='" + resultFileName + '\'' +
                 ", resultFileSizeKb=" + resultFileSizeKb +
                 ", numberOfPages=" + numberOfPages +
-                // Другие поля класса
                 '}';
     }
 }

@@ -1,7 +1,6 @@
 package com.example.pdfsplitterbackend.controller;
 
 import com.example.pdfsplitterbackend.dto.PDFFileDTO;
-import com.example.pdfsplitterbackend.mapper.PDFFileMapper;
 import com.example.pdfsplitterbackend.service.PDFFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
@@ -19,12 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/pdf")
 public class PDFFileController {
-    private final PDFFileMapper pdfFileMapper;
     private final PDFFileService pdfFileService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadPDFFile(@RequestParam("file") MultipartFile file) throws IOException {
-        String fileId = pdfFileService.uploadPDFFile(file);
+    public ResponseEntity<Integer> uploadPDFFile(@RequestParam("file") MultipartFile file) throws IOException {
+        int fileId = pdfFileService.uploadPDFFile(file);
         return ResponseEntity.ok(fileId);
     }
 
@@ -47,9 +45,5 @@ public class PDFFileController {
     public ResponseEntity<List<PDFFileDTO>> getAllPDFFiles() {
         List<PDFFileDTO> pdfFiles = pdfFileService.getAllPDFFiles();
         return ResponseEntity.ok(pdfFiles);
-    }
-
-    public PDFFileMapper getPdfFileMapper() {
-        return pdfFileMapper;
     }
 }

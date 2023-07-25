@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface PDFFileService {
-    String uploadPDFFile(MultipartFile file) throws IOException;
+    int uploadPDFFile(MultipartFile file) throws IOException;
 
     Resource downloadPDFFile(String fileId) throws FileNotFoundException;
 
