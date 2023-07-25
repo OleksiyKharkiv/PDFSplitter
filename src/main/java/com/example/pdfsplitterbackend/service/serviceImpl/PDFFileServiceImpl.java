@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 public class PDFFileServiceImpl implements PDFFileService {
 
     private final PDFFileRepository pdfFileRepository;
-
     private final PDFFileMapper pdfFileMapper;
 
     @Override
@@ -39,7 +38,7 @@ public class PDFFileServiceImpl implements PDFFileService {
         String fileId = UUID.randomUUID().toString();
         PDFFile pdfFile = new PDFFile();
         pdfFileRepository.save(pdfFile);
-        return fileId;
+        return Integer.parseInt(fileId);
     }
 
     @Override

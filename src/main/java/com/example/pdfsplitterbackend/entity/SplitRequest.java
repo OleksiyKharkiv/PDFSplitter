@@ -5,7 +5,6 @@ import com.example.pdfsplitterbackend.enums.SplitMode;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Objects;
 
 @Data
@@ -17,8 +16,6 @@ public class SplitRequest {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "original_file_id")
-    private int originalFileId;
     @Column(name = "split_mode")
     @Enumerated(EnumType.ORDINAL)
     private SplitMode splitMode;
@@ -29,43 +26,34 @@ public class SplitRequest {
     private RequestStatus requestStatus;
 
     @ManyToOne
-    @JoinColumn(name = "original_file_id", referencedColumnName = "id")
-    private PDFFile originalFile;
-
-    private ResultFile resultFileName;
-    private ResultFile resultFileSizeKb;
-    private ResultFile numberOfPages;
-    private PDFFile fileContent;
+    @JoinColumn(name = "pdf_file_id", referencedColumnName = "id")
+    private PDFFile originalFileId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ResultFile that = (ResultFile) o;
-        return Objects.equals(id, that.getId()) &&
-                Objects.equals(originalFileId, that.getOriginalFileId()) &&
-                Objects.equals(resultFileName, that.getResultFileName()) &&
-                Objects.equals(resultFileSizeKb, that.getResultFileSizeKb()) &&
-                Objects.equals(numberOfPages, that.getNumberOfPages()) &&
-                Arrays.equals(fileContent.getFileContent(), that.getFileContent());
+        SplitRequest that = (SplitRequest) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(originalFileId, that.originalFileId) && // Используем поле 'originalFile', а не 'originalFileId'
+                Objects.equals(splitMode, that.splitMode) &&
+                Objects.equals(splitValue, that.splitValue) &&
+                Objects.equals(requestStatus, that.requestStatus);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, originalFileId, resultFileName, resultFileSizeKb, numberOfPages);
-        result = 31 * result + Arrays.hashCode(fileContent.getFileContent());
-        return result;
+        return Objects.hash(id, originalFileId, splitMode, splitValue, requestStatus); // Включим 'originalFile' в вычисление hashCode
     }
 
     @Override
     public String toString() {
-        return "ResultFile{" +
+        return "SplitRequest{" +
                 "id=" + id +
-                ", originalFileId=" + originalFileId +
-                ", resultFileName='" + resultFileName + '\'' +
-                ", resultFileSizeKb=" + resultFileSizeKb +
-                ", numberOfPages=" + numberOfPages +
-                // Другие поля класса
+                ", originalFile=" + originalFileId +
+                ", splitMode=" + splitMode +
+                ", splitValue=" + splitValue +
+                ", requestStatus=" + requestStatus +
                 '}';
     }
 }

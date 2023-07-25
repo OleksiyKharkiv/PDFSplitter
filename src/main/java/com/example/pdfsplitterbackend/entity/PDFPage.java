@@ -16,7 +16,7 @@ public class PDFPage {
     private int id;
     @Column(name = "page_number")
     private int pageNumber;
-    @Column(name = "size_Mb")
+    @Column(name = "size_Kb")
     private int sizeKb;
     @Column(name = "number_of_pages")
     private int numberOfPages;

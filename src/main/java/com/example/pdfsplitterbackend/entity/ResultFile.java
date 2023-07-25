@@ -25,9 +25,8 @@ public class ResultFile {
     @Column(name = "file_content")
     private byte[] fileContent;
     @OneToOne
-    @JoinColumn(name = "original_file_id", referencedColumnName = "id")
+    @JoinColumn(name = "pdf_file_id", referencedColumnName = "id")
     private PDFFile originalFile;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
