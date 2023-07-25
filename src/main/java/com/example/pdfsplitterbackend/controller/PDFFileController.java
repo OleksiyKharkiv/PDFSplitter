@@ -4,8 +4,6 @@ import com.example.pdfsplitterbackend.dto.PDFFileDTO;
 import com.example.pdfsplitterbackend.mapper.PDFFileMapper;
 import com.example.pdfsplitterbackend.service.PDFFileService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -21,14 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/pdf")
 public class PDFFileController {
-    private final PDFFileService pdfFileService;
     private final PDFFileMapper pdfFileMapper;
-
-    @Autowired
-    public PDFFileController(@Qualifier("PDFFileMapper") PDFFileMapper pdfFileMapper, PDFFileService pdfFileService) {
-        this.pdfFileMapper = pdfFileMapper;
-        this.pdfFileService = pdfFileService;
-    }
+    private final PDFFileService pdfFileService;
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadPDFFile(@RequestParam("file") MultipartFile file) throws IOException {
