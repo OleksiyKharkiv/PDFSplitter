@@ -41,7 +41,7 @@ public class PDFFileControllerTest {
     public void testUploadPDFFile() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "test.pdf", "application/pdf", "pdf content".getBytes());
 
-        when(pdfFileService.uploadPDFFile(any(MultipartFile.class))).thenReturn("fileId123");
+        when(pdfFileService.uploadPDFFile(any(MultipartFile.class))).thenReturn(123);
 
         mockMvc.perform(multipart("/api/pdf/upload").file(file))
                 .andExpect(status().isOk())

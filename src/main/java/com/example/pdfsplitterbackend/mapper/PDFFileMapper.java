@@ -15,7 +15,7 @@ public interface PDFFileMapper {
     PDFFileMapper INSTANCE = getMapper(PDFFileMapper.class);
 
     // Методы маппинга для преобразования между DTO и сущностью PDFFile
-    @Mapping(target = "fileName", source = "title")
+    @Mapping(target = "title", source = "title")
     PDFFileDTO toDTO(PDFFile pdfFile);
 
     @Mapping(target = "title", source = "fileName")
