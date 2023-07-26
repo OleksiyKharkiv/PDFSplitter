@@ -1,19 +1,25 @@
 package com.example.pdfsplitterbackend.entity;
 
-import lombok.Data;
+import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "pdf_page")
+@NoArgsConstructor
+@AllArgsConstructor
 public class PDFPage {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @ManyToOne()
+    @JoinColumn(name = "pdf_file_id", referencedColumnName = "id")
+    private PDFFile pdfFile;
     @Column(name = "page_number")
     private int pageNumber;
     @Column(name = "size_Kb")
@@ -22,9 +28,7 @@ public class PDFPage {
     private int numberOfPages;
     @Column(name = "file_content")
     private byte[] fileContent;
-    @ManyToOne
-    @JoinColumn(name = "pdf_file_id", referencedColumnName = "id")
-    private PDFFile pdfFile;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,10 +52,10 @@ public class PDFPage {
     public String toString() {
         return "PDFPage{" +
                 "id=" + id +
+                ", pdfFile=" + pdfFile +
                 ", pageNumber=" + pageNumber +
                 ", sizeKb=" + sizeKb +
                 ", numberOfPages=" + numberOfPages +
-                // Другие поля класса
                 '}';
     }
 }

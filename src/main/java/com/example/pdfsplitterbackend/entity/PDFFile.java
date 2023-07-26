@@ -1,19 +1,20 @@
 package com.example.pdfsplitterbackend.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Entity
+@Table(name = "pdf_file")
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "pdf_file")
-
 public class PDFFile {
     @Id
     @Column(name = "id")
@@ -28,13 +29,13 @@ public class PDFFile {
     @Column(name = "file_content")
     private byte[] fileContent;
 
-    @OneToMany(mappedBy = "pdfFile", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pdfFile")
     private List<PDFPage> pdfPages;
 
-    @OneToOne(mappedBy = "originalFile", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pdfFile")
     private ResultFile resultFile;
 
-    @OneToMany(mappedBy = "pdfFile", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pdfFile")
     private List<SplitRequest> splitRequests;
     @Override
     public boolean equals(Object o) {

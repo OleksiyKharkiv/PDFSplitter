@@ -1,21 +1,25 @@
 package com.example.pdfsplitterbackend.entity;
 
-import lombok.Data;
+import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "result_file")
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResultFile {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "original_file_id")
-    private int originalFileId;
+    @OneToOne()
+    @JoinColumn(name = "pdf_file_id", referencedColumnName = "id")
+    private PDFFile pdfFile;
     @Column(name = "result_file_name")
     private String resultFileName;
     @Column(name = "result_file_size")
@@ -24,16 +28,14 @@ public class ResultFile {
     private int numberOfPages;
     @Column(name = "file_content")
     private byte[] fileContent;
-    @OneToOne
-    @JoinColumn(name = "pdf_file_id", referencedColumnName = "id")
-    private PDFFile originalFile;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ResultFile that = (ResultFile) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(originalFileId, that.originalFileId) &&
+                Objects.equals(pdfFile, that.pdfFile) &&
                 Objects.equals(resultFileName, that.resultFileName) &&
                 Objects.equals(resultFileSizeKb, that.resultFileSizeKb) &&
                 Objects.equals(numberOfPages, that.numberOfPages) &&
@@ -42,7 +44,7 @@ public class ResultFile {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, originalFileId, resultFileName, resultFileSizeKb, numberOfPages);
+        int result = Objects.hash(id, pdfFile, resultFileName, resultFileSizeKb, numberOfPages);
         result = 31 * result + Arrays.hashCode(fileContent);
         return result;
     }
@@ -51,7 +53,7 @@ public class ResultFile {
     public String toString() {
         return "ResultFile{" +
                 "id=" + id +
-                ", originalFileId=" + originalFileId +
+                ", pdfFile=" + pdfFile +
                 ", resultFileName='" + resultFileName + '\'' +
                 ", resultFileSizeKb=" + resultFileSizeKb +
                 ", numberOfPages=" + numberOfPages +
