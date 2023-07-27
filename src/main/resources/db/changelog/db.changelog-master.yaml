@@ -9,7 +9,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: varchar(50)
+                  type: integer(50)
               #                    autoIncrement: true
               #                    constraints:
               #                      primaryKey: true
@@ -31,18 +31,21 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: varchar(50)
+                  type: integer
               #                    autoIncrement: true
               #                    constraints:
               #                      primaryKey: true
               #                      nullable: false
               - column:
-                  name: title
-                  type: varchar(100)
+                  name: pdf_file_id
+                  type: integer
               #                    autoIncrement: true
               #                    constraints:
               #                      foreignKey: true
               #                      nullable: false
+              - column:
+                  name: page_number
+                  type: integer
               - column:
                   name: size_Kb
                   type: integer
@@ -50,7 +53,7 @@ databaseChangeLog:
                   name: number_of_pages
                   type: integer
               - column:
-                  name: file-content
+                  name: file_content
                   type: BLOB
 
         - createTable:
@@ -64,7 +67,7 @@ databaseChangeLog:
               #                      primaryKey: true
               #                      nullable: false
               - column:
-                  name: original_file_id
+                  name: pdf_file_id
                   type: integer
               #                    autoIncrement: true
               #                    constraints:
@@ -89,13 +92,13 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: varchar(50)
+                  type: integer
               #                    autoIncrement: true
               #                    constraints:
               #                      primaryKey: true
               #                      nullable: false
               - column:
-                  name: original_file__id
+                  name: pdf_file_id
                   type: integer
               #                    autoIncrement: true
               #                    constraints:
