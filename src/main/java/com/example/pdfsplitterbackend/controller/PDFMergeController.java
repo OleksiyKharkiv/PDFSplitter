@@ -47,7 +47,6 @@ public class PDFMergeController {
         }
     }
 
-
     @GetMapping("/file/{id}")
     public ResponseEntity<Resource> downloadPDFFile(@PathVariable("id") int fileId) {
         try {
